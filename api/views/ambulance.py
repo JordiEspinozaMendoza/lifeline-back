@@ -21,6 +21,7 @@ class AmbulanceView(APIView):
                 plate=data["plate"],
             )
             item.save()
+            return Response({"message": "Item created successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -40,6 +41,6 @@ class AmbulanceDetails(APIView):
             item = Ambulance.objects.get(pk=pk)
             item.plate = data["plate"]
             item.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response({"message": "Item updated successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

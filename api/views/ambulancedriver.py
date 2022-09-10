@@ -40,7 +40,6 @@ class AmbulanceDriverDetails(APIView):
         try:
             data = request.data
             item = AmbulanceDriver.objects.get(pk=pk)
-            item.ambulance_id = data["ambulance"]
             item.driver_id = data["driver"]
             item.save()
             return Response({"message": "Item modified successfully"}, status=status.HTTP_200_OK)
