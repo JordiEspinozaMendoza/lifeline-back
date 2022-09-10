@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3odx!lxoh*xpb286no_v)a7#+e_6ydwh@lj!53b4_g7kx0s(i7'
+
+SECRET_KEY = config('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lifeline-hack.herokuapp.com', 'localhost' ]
 
 
 # Application definition
@@ -38,10 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djangorestframework',
-    'api'
+    'django.contrib.postgres',
+    'corsheaders',
+    'api',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -123,3 +130,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DATABASE_URL = config('DATABASE_URL', default='')
+
+
+if DATABASE_URL and not ENVIRONMENT == 'LOCAL':
+    import dj_database_url
+    db_from_env_django = dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+    DATABASES['default'].update(db_from_env_django)
+    if ENVIRONMENT == 'PRODUCTION':
+        CORS_ALLOW_ALL_ORIGINS = False
+        CORS_ORIGIN_WHITELIST = config('ALLOWED_ORIGINS', cast=lambda x: x.split(',') if x else [])
+        CSRF_TRUSTED_ORIGINS = config('ALLOWED_ORIGINS', cast=lambda x: x.split(',') if x else [])
