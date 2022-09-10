@@ -21,6 +21,7 @@ class PatientView(APIView):
                 name=data["name"],
                 lastName=data["lastName"],
                 age=data["age"],
+                disease=data["disease"],
             )
             item.save()
             return Response({"message": "Item created successfully"}, status=status.HTTP_200_OK)
@@ -44,6 +45,7 @@ class PatientDetails(APIView):
             item.name = data["name"]
             item.lastName = data["lastName"]
             item.age = data["age"]
+            item.disease = data["disease"]
             item.save()
             return Response({"message": "Item modified successfully"}, status=status.HTTP_200_OK)
         except Exception as e:

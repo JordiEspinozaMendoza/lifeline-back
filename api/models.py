@@ -22,3 +22,4 @@ class Patient(models.Model):
     name = models.CharField(max_length=75)
     lastName = models.CharField(max_length=75)
     age = models.IntegerField()
+    disease = models.CharField(max_length=75, default="")
