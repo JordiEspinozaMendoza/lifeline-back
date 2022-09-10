@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from api.serializers.ambulance import AmbulanceSerializer
-from api.serializers.driver import DriverSerializer
+from api.serializers.ambulance import AmbulanceNoDetailsSerializer, AmbulanceSerializer
+from api.serializers.driver import DriverNoDetailsSerializer, DriverSerializer
 from api.models import AmbulanceDriver, Ambulance, Driver
 
 class AmbulanceDriverSerializer(serializers.ModelSerializer):
@@ -13,16 +13,16 @@ class AmbulanceDriverSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AmbulanceDriver
-        fields = '__all__'
+        fields = "__all__"
 
     def get_ambulance(self, obj):
-        ambulance = Ambulance.objects.filter(_id=obj.ambulance._id)
-        if ambulance.exists():
-            return AmbulanceSerializer(ambulance, many=True).data
+        print(AmbulanceSerializer(obj.ambulance))
+        if obj.ambulance:
+            return AmbulanceNoDetailsSerializer(obj.ambulance, many=False).data
         return None
     
     def get_driver(self, obj):
-        driver = Driver.objects.filter(driver__pk=obj.driver._id)
-        if driver.exists():
-            return DriverSerializer(driver, many=True).data
+        getDrivers = Driver.objects.filter(_id=obj.driver_id)
+        if getDrivers.exists():
+            return DriverNoDetailsSerializer(getDrivers, many=True).data
         return None
