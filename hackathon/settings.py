@@ -147,6 +147,6 @@ if DATABASE_URL and not ENVIRONMENT == 'LOCAL':
     db_from_env_django = dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
     DATABASES['default'].update(db_from_env_django)
     if ENVIRONMENT == 'PRODUCTION':
-        CORS_ALLOW_ALL_ORIGINS = False
-        CORS_ORIGIN_WHITELIST = config('ALLOWED_ORIGINS', cast=lambda x: x.split(',') if x else [])
+        CORS_ALLOW_ALL_ORIGINS = True
+        # CORS_ORIGIN_WHITELIST = config('ALLOWED_ORIGINS', cast=lambda x: x.split(',') if x else [])
         CSRF_TRUSTED_ORIGINS = config('ALLOWED_ORIGINS', cast=lambda x: x.split(',') if x else [])
