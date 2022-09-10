@@ -16,7 +16,6 @@ class AmbulanceDriverSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_ambulance(self, obj):
-        print(a.AmbulanceSerializer(obj.ambulance))
         if obj.ambulance:
             return a.AmbulanceNoDetailsSerializer(obj.ambulance, many=False).data
         return None
@@ -37,7 +36,6 @@ class AmbulanceDriverDetailsSerializer(serializers.ModelSerializer):
         fields = ('driver',)
 
     def get_driver(self, obj):
-        print(obj.driver)
         if obj.driver:
             return DriverSerializer(obj.driver, many=False).data
         return None
