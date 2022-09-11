@@ -1,4 +1,4 @@
-# Quick deployment
+# Quick deployment with docker
 
 - docker-compose build
 - docker-compose up
