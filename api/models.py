@@ -16,6 +16,7 @@ class AmbulanceDriver(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
     ambulance = models.ForeignKey(Ambulance, on_delete=models.CASCADE)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=15, default="6640000000")
 
 
 class Patient(models.Model):
