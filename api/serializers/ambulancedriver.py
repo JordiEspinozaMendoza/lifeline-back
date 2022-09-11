@@ -17,7 +17,7 @@ class AmbulanceDriverSerializer(serializers.ModelSerializer):
 
     def get_ambulance(self, obj):
         if obj.ambulance:
-            return a.AmbulanceNoDetailsSerializer(obj.ambulance, many=False).data
+            return a.AmbulanceSerializerNoDriver(obj.ambulance, many=False).data
         return None
     
     def get_driver(self, obj):
